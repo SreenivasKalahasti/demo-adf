@@ -1,0 +1,56 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FirstName",
+				"type": "varchar"
+			},
+			{
+				"name": "Gender",
+				"type": "varchar"
+			},
+			{
+				"name": "StartDate",
+				"type": "date"
+			},
+			{
+				"name": "LastLoginTime",
+				"type": "timestamp"
+			},
+			{
+				"name": "Salary",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Bonus",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "SeniorManagement",
+				"type": "varchar"
+			},
+			{
+				"name": "Team",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "emp"
+		}
+	}
+}
