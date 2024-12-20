@@ -1,0 +1,18 @@
+{
+	"name": "Snowflakedb",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SnowflakeV2",
+		"typeProperties": {
+			"authenticationType": "Basic",
+			"accountIdentifier": "unkbxki-ev67804",
+			"user": "sreenivaskalahasti",
+			"database": "ingest_data",
+			"warehouse": "compute_wh",
+			"role": "ACCOUNTADMIN",
+			"host": "unkbxki-ev67804.snowflakecomputing.com",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDk2RDI0RjU0LTI5QkUtNEFGMS05OTBBLUMzMEQ0OTkwMDFGMl9hZmVmMTYzOC0yMjk1LTQwMTItYjllMC1jMmE1NjE1ZTNhMjgiDQp9"
+		}
+	}
+}
