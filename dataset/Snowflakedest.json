@@ -1,0 +1,139 @@
+{
+	"name": "Snowflakedest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Snowflakedb",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "AVERAGE_COVERED_CHARGES",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "AVERAGE_TOTAL_PAYMENTS",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "TOTAL_DISCHARGES",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "BACHELORORHIGHER",
+				"type": "FLOAT"
+			},
+			{
+				"name": "HSGRADORHIGHER",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "TOTALPAYMENTS",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "REIMBURSEMENT",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "TOTAL_COVERED_CHARGES",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "REFERRALREGION_PROVIDER_NAME",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "REIMBURSEMENTPERCENTAGE",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "DRG_DEFINITION",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "REFERRAL_REGION",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "INCOME_PER_CAPITA",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "MEDIAN_EARNINGSBACHELORS",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "MEDIAN_EARNINGS_GRADUATE",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "MEDIAN_EARNINGS_HS_GRAD",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "MEDIAN_EARNINGSLESS_THAN_HS",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "MEDIAN_FAMILY_INCOME",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "NUMBER_OF_RECORDS",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "POP_25_OVER",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "PROVIDER_CITY",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "PROVIDER_ID",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "PROVIDER_NAME",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "PROVIDER_STATE",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "PROVIDER_STREET_ADDRESS",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "PROVIDER_ZIP_CODE",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "FILENAME",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "FILE_ROW_NUMBER",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "LOAD_TIMESTAMP",
+				"type": "TIMESTAMP_NTZ"
+			}
+		],
+		"typeProperties": {
+			"schema": "PUBLIC",
+			"table": "HEALTH_TGT"
+		}
+	}
+}
