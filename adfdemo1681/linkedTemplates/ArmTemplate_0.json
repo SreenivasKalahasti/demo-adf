@@ -1,0 +1,956 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adfdemo1681"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureBlobStorage2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage2'"
+		},
+		"AzureBlobStorage3_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage3'"
+		},
+		"AzureSqlDatabase1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase1'"
+		},
+		"Snowflakedb_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Snowflakedb'"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sqladmin1981.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dp1981db"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "aznewdb"
+		},
+		"Snowflakedb_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "ingest_data"
+		},
+		"Snowflakedb_properties_typeProperties_role": {
+			"type": "string",
+			"defaultValue": "ACCOUNTADMIN"
+		},
+		"Snowflakedb_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "unkbxki-ev67804.snowflakecomputing.com"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage2_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage3')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage3_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabase1_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabase1_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabase1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSqlDatabase1_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflakedb')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SnowflakeV2",
+				"typeProperties": {
+					"authenticationType": "Basic",
+					"accountIdentifier": "unkbxki-ev67804",
+					"user": "sreenivaskalahasti",
+					"database": "[parameters('Snowflakedb_properties_typeProperties_database')]",
+					"warehouse": "compute_wh",
+					"role": "[parameters('Snowflakedb_properties_typeProperties_role')]",
+					"host": "[parameters('Snowflakedb_properties_typeProperties_host')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Snowflakedb_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirstName",
+						"type": "varchar"
+					},
+					{
+						"name": "Gender",
+						"type": "varchar"
+					},
+					{
+						"name": "StartDate",
+						"type": "date"
+					},
+					{
+						"name": "LastLoginTime",
+						"type": "timestamp"
+					},
+					{
+						"name": "Salary",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Bonus",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "SeniorManagement",
+						"type": "varchar"
+					},
+					{
+						"name": "Team",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "emp"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SnowflakeTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Snowflakedb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SnowflakeV2Table",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "AVERAGE_COVERED_CHARGES",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "AVERAGE_TOTAL_PAYMENTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TOTAL_DISCHARGES",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "BACHELORORHIGHER",
+						"type": "FLOAT",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "HSGRADORHIGHER",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TOTALPAYMENTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REIMBURSEMENT",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TOTAL_COVERED_CHARGES",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REFERRALREGION_PROVIDER_NAME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REIMBURSEMENTPERCENTAGE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "DRG_DEFINITION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REFERRAL_REGION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "INCOME_PER_CAPITA",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGSBACHELORS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGS_GRADUATE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGS_HS_GRAD",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGSLESS_THAN_HS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_FAMILY_INCOME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "NUMBER_OF_RECORDS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "POP_25_OVER",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_CITY",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_NAME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_STATE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_STREET_ADDRESS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_ZIP_CODE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "FILENAME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "FILE_ROW_NUMBER",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "LOAD_TIMESTAMP",
+						"type": "TIMESTAMP_NTZ"
+					}
+				],
+				"typeProperties": {
+					"schema": "PUBLIC",
+					"table": "HEALTHCARE"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Snowflakedb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflakedest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Snowflakedb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SnowflakeV2Table",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "AVERAGE_COVERED_CHARGES",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "AVERAGE_TOTAL_PAYMENTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TOTAL_DISCHARGES",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "BACHELORORHIGHER",
+						"type": "FLOAT"
+					},
+					{
+						"name": "HSGRADORHIGHER",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TOTALPAYMENTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REIMBURSEMENT",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TOTAL_COVERED_CHARGES",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REFERRALREGION_PROVIDER_NAME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REIMBURSEMENTPERCENTAGE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "DRG_DEFINITION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REFERRAL_REGION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "INCOME_PER_CAPITA",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGSBACHELORS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGS_GRADUATE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGS_HS_GRAD",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGSLESS_THAN_HS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_FAMILY_INCOME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "NUMBER_OF_RECORDS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "POP_25_OVER",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_CITY",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_NAME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_STATE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_STREET_ADDRESS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_ZIP_CODE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "FILENAME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "FILE_ROW_NUMBER",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "LOAD_TIMESTAMP",
+						"type": "TIMESTAMP_NTZ"
+					}
+				],
+				"typeProperties": {
+					"schema": "PUBLIC",
+					"table": "HEALTH_TGT"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Snowflakedb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflaketgt')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Snowflakedb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SnowflakeV2Table",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "AVERAGE_COVERED_CHARGES",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "AVERAGE_TOTAL_PAYMENTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TOTAL_DISCHARGES",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "BACHELORORHIGHER",
+						"type": "FLOAT",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "HSGRADORHIGHER",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TOTALPAYMENTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REIMBURSEMENT",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TOTAL_COVERED_CHARGES",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REFERRALREGION_PROVIDER_NAME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REIMBURSEMENTPERCENTAGE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "DRG_DEFINITION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "REFERRAL_REGION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "INCOME_PER_CAPITA",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGSBACHELORS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGS_GRADUATE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGS_HS_GRAD",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_EARNINGSLESS_THAN_HS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "MEDIAN_FAMILY_INCOME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "NUMBER_OF_RECORDS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "POP_25_OVER",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_CITY",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_NAME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_STATE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_STREET_ADDRESS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "PROVIDER_ZIP_CODE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "FILENAME",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "FILE_ROW_NUMBER",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "LOAD_TIMESTAMP",
+						"type": "TIMESTAMP_NTZ"
+					}
+				],
+				"typeProperties": {
+					"schema": "PUBLIC",
+					"table": "HEALTHCARE_RAW"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Snowflakedb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/csvdata')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "employees.csv",
+						"folderPath": "input",
+						"container": "adfdemo"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "YearsExperience",
+						"type": "String"
+					},
+					{
+						"name": "Salary",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/csvdatanew')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "tips.csv",
+						"container": "source"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "total_bill",
+						"type": "String"
+					},
+					{
+						"name": "tip",
+						"type": "String"
+					},
+					{
+						"name": "sex",
+						"type": "String"
+					},
+					{
+						"name": "smoker",
+						"type": "String"
+					},
+					{
+						"name": "day",
+						"type": "String"
+					},
+					{
+						"name": "time",
+						"type": "String"
+					},
+					{
+						"name": "size",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/csvnewdata')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "tips.csv",
+						"container": "source"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "total_bill",
+						"type": "String"
+					},
+					{
+						"name": "tip",
+						"type": "String"
+					},
+					{
+						"name": "sex",
+						"type": "String"
+					},
+					{
+						"name": "smoker",
+						"type": "String"
+					},
+					{
+						"name": "day",
+						"type": "String"
+					},
+					{
+						"name": "time",
+						"type": "String"
+					},
+					{
+						"name": "size",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Data_Ingest_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "total_bill",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "total_bill",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tip",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "tip",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "sex",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "sex",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "smoker",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "smoker",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "day",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "day",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "time",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "time",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "size",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "size",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "csvdatanew",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "csvnewdata",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/csvdatanew')]",
+				"[concat(variables('factoryId'), '/datasets/csvnewdata')]"
+			]
+		}
+	]
+}
