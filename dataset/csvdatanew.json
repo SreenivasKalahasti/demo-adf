@@ -1,0 +1,52 @@
+{
+	"name": "csvdatanew",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "tips.csv",
+				"container": "source"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "total_bill",
+				"type": "String"
+			},
+			{
+				"name": "tip",
+				"type": "String"
+			},
+			{
+				"name": "sex",
+				"type": "String"
+			},
+			{
+				"name": "smoker",
+				"type": "String"
+			},
+			{
+				"name": "day",
+				"type": "String"
+			},
+			{
+				"name": "time",
+				"type": "String"
+			},
+			{
+				"name": "size",
+				"type": "String"
+			}
+		]
+	}
+}
