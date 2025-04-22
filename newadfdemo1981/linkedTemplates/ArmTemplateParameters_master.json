@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "newadfdemo1981"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage2_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage3_connectionString": {
+			"value": ""
+		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
+		"Snowflakedb_password": {
+			"value": ""
+		},
+		"AzureBlobStorage4_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "sqladmin1981.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "dp1981db"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "aznewdb"
+		},
+		"Snowflakedb_properties_typeProperties_database": {
+			"value": "ingest_data"
+		},
+		"Snowflakedb_properties_typeProperties_role": {
+			"value": "ACCOUNTADMIN"
+		},
+		"Snowflakedb_properties_typeProperties_host": {
+			"value": "unkbxki-ev67804.snowflakecomputing.com"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
