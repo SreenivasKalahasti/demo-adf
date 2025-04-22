@@ -154,7 +154,10 @@
 				"typeProperties": {
 					"notebookPath": "/Users/sreenivaskalahasti.adb@outlook.com/adfdemo/mynotebook",
 					"baseParameters": {
-						"input": "@P"
+						"input": {
+							"value": "@P",
+							"type": "Expression"
+						}
 					}
 				},
 				"linkedServiceName": {
